@@ -11,14 +11,14 @@
   }
 
 #define H { \
+    {0, 0, 0, 0, 0,0,0,0}, \
     {1, 1, 0, 0, 0,0,1,1}, \
     {1, 1, 0, 0, 0,0,1,1}, \
+    {1, 1, 0, 1, 1,1,1,1}, \
+    {1, 1, 0, 1, 1,1,1,1}, \
     {1, 1, 0, 0, 0,0,1,1}, \
-    {1, 1, 1, 1, 1,1,1,1}, \
-    {1, 1, 1, 1, 1,1,1,1}, \
     {1, 1, 0, 0, 0,0,1,1}, \
-    {1, 1, 0, 0, 0,0,1,1}, \
-    {1, 1, 0, 0, 0,0,1,1}\
+    {1, 0, 0, 0, 0,0,0,0}\
   }
 
 
@@ -52,14 +52,14 @@ void setup() {
 
   clearLeds(); //------------------------- Si se inicia de nuevo entonces limpiaremos la matriz de leds
   FrequencyTimer2::disable(); //-------------------------------------- Si hay alguno ya iniciado lo quitamos
-  FrequencyTimer2::setPeriod(2000); //-------------------------------- Intervalor en la que se refrescara la letra
+  FrequencyTimer2::setPeriod(3500); //-------------------------------- Intervalor en la que se refrescara la letra
   FrequencyTimer2::setOnOverflow(display); //---------------------- Metodo que se encargara de mostrar la letra
 
   setLetra(letraActual);
   lc.shutdown(0, false);
 
   //Set a medium brightness for the LEDs
-  lc.setIntensity(0, 5);
+  lc.setIntensity(0, 8);
 
   //Clear the display
   lc.clearDisplay(0);
@@ -69,7 +69,7 @@ void setup() {
 void loop() {
   letraActual = ++letraActual % 3; //------------------- Por cada vez que se repita iremos a la siguiente letra, uso modular para regresar a 0 cuando termine las letras
   desplazarLetra();
-  
+
 }
 
 /**
@@ -92,7 +92,7 @@ void clearLeds()
 */
 void desplazarLetra()
 {
-  
+
   //------ A la matriz actual, movemos los datos ya en ella 1 posicion
 
   for (int n = 0; n < 8; n++) {
@@ -118,21 +118,25 @@ void desplazarLetra()
 void display() {
   digitalWrite(columnas[col], LOW);
   col++;
+  
   if (col == 8) col = 0;
   for (int i = 0; i < 8; i++) {
+  
     if (led[col][i] == 1) {
+      lc.setLed(0, col, i, true);
       digitalWrite(filas[i], LOW);
+
     }
     else {
       digitalWrite(filas[i], HIGH);
+      lc.setLed(0, col, i, false);
+      
     }
-      int flag = led[col][i];
-      if(flag == 1) lc.setLed(0,col,i,true);
-      else lc.setLed(0,col,i,false); 
-    
+   
+
   }
   digitalWrite(columnas[col], HIGH);
-  delay(200);    
+  delay(5);
 }
 
 

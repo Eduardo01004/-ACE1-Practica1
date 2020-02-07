@@ -14,8 +14,8 @@
     {0, 0, 0, 0, 0,0,0,0}, \
     {1, 1, 0, 0, 0,0,1,1}, \
     {1, 1, 0, 0, 0,0,1,1}, \
-    {1, 1, 0, 1, 1,1,1,1}, \
-    {1, 1, 0, 1, 1,1,1,1}, \
+    {1, 1, 1, 1, 1,1,1,1}, \
+    {1, 1, 1, 1, 1,1,1,1}, \
     {1, 1, 0, 0, 0,0,1,1}, \
     {1, 1, 0, 0, 0,0,1,1}, \
     {1, 0, 0, 0, 0,0,0,0}\
@@ -38,8 +38,8 @@
 int columnas[8] = {0, 1, 2, 3, 4, 5, 6, 7};
 int filas[8] = {15, 14, 13, 12, 11, 10, 9, 8};
 int col = 0;
-int led[8][8];
 
+int matriz[8][16];
 
 const int caracteres = 4;
 byte oracion[caracteres][8][8] = { SPACE, H , O, SPACE};
@@ -56,18 +56,17 @@ void setup() {
   FrequencyTimer2::setOnOverflow(display); //---------------------- Metodo que se encargara de mostrar la letra
 
   setLetra(letraActual);
+
   lc.shutdown(0, false);
-
-  //Set a medium brightness for the LEDs
+  //Intensidad de los les de la matriz con modulo
   lc.setIntensity(0, 8);
-
-  //Clear the display
+  //Limpiamos la matriz con modulo
   lc.clearDisplay(0);
 
 }
 
 void loop() {
-  letraActual = ++letraActual % 3; //------------------- Por cada vez que se repita iremos a la siguiente letra, uso modular para regresar a 0 cuando termine las letras
+  letraActual = (letraActual + 1 >= caracteres) ? 0 : letraActual + 1; //------------------- Ciclo segun la cantidad de letras que haya -------------------------------
   desplazarLetra();
 
 }
@@ -78,8 +77,8 @@ void loop() {
 void clearLeds()
 {
   for (int i = 0; i < 8; i++) {
-    for (int j = 0; j < 8; j++) {
-      led[i][j] = 0;
+    for (int j = 0; j < 16; j++) {
+      matriz[i][j] = 0;
     }
 
   }
@@ -94,19 +93,19 @@ void desplazarLetra()
 {
 
   //------ A la matriz actual, movemos los datos ya en ella 1 posicion
-
   for (int n = 0; n < 8; n++) {
-    // Clear display array
     for (int i = 0; i < 8; i++) {
-      for (int j = 0; j < 8; j++) {
-        led[i][j] = led[i][j + 1];
+      for (int j = 0; j < 16; j++) {
+        matriz[i][j] = matriz[i][j + 1];
       }
 
     }
 
     //---------------------- LLenamos en la ultima posicion de la matriz la siguiente fila de la letra actual
+    int y = 0;
     for (int i = 0; i < 8; i++) {
-      led[i][7] = oracion[letraActual][n][i];
+      matriz[y][15] = oracion[letraActual][n][i];
+      y = (y + 1 > 7) ? 0 : y + 1; //--------- Si es mayor a 8 se regresa a 0 ya que cada figura es de 8x8
       delay(5); // Este tiempo es el que se cambiara dependiendo la velocidad que se quiera la palabra
     }
   }
@@ -121,20 +120,19 @@ void display() {
   
   if (col == 8) col = 0;
   for (int i = 0; i < 8; i++) {
-  
-    if (led[col][i] == 1) {
-      lc.setLed(0, col, i, true);
-      digitalWrite(filas[i], LOW);
 
-    }
-    else {
-      digitalWrite(filas[i], HIGH);
-      lc.setLed(0, col, i, false);
-      
-    }
+  //--------------- MATRIZ SUPERIOR -----------------------------------
+    if (matriz[col][i] == 1) digitalWrite(filas[i], LOW);
+    else digitalWrite(filas[i], HIGH);
+    
+  //------------------- MATRIZ INFERIOR
+   if (matriz[col][i+8] == 1) lc.setLed(0,col,i,true);
+   else lc.setLed(0,col,i,false);
+
    
 
   }
+   
   digitalWrite(columnas[col], HIGH);
   delay(5);
 }
@@ -148,7 +146,7 @@ void display() {
 void setLetra(int x) {
   for (int i = 0; i < 8; i++) {
     for (int j = 0; j < 8; j++) {
-      led[i][j] = oracion[x][j][i];
+      matriz[i][j] = oracion[x][j][i];
     }
   }
 }

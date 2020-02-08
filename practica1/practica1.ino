@@ -174,18 +174,29 @@
     {0, 0, 0, 0, 0, 0, 0, 0}\
   }
 
-int columnas[8] = {0, 1, 2, 3, 4, 5, 6, 7};
-int filas[8] = {15, 14, 13, 12, 11, 10, 9, 8};
-int col = 0;
+  int columnas[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+  int filas[8] = {15, 14, 13, 12, 11, 10, 9, 8};
+  int col = 0;
+  
+  int matriz[8][16];
+  
+  const int caracteres = 23;
+  byte oracion[caracteres][8][8] = { SPACE, G , THREE, GUION , S , E , C , C , I , O , N , A , GUION , P , R , A , C , T , I , C , A , UNO , SPACE};
+  int letraActual = 0;
 
-int matriz[8][16];
-
-const int caracteres = 23;
-byte oracion[caracteres][8][8] = { SPACE, G , THREE, GUION , S , E , C , C , I , O , N , A , GUION , P , R , A , C , T , I , C , A , UNO , SPACE};
-int letraActual = 0;
+  // para el boton
+  unsigned long time_init; //tiempo desde que el arduino comienza a iniciar /current
+  unsigned long time_last; // ultimo tiempo de la lectura 
+  const int intervalo_button = 50;
+  int estado_prev = LOW;    //estado previo stateprevius
+  unsigned long time_press; //longopress
+  unsigned long duracion;
+  bool estate_button = false;
+  unsigned long min_time = 3000;  // 3 segundos
 
 LedControl lc = LedControl(16, 18, 17, 1);
 void setup() {
+  //desde aqui si funciona con el boton tira como "lag" en proteus
   for (int i = 0; i  < 16; i++) pinMode(i, OUTPUT);
   for (int i = 0; i  < 16; i++) digitalWrite(columnas[i], LOW);
 
@@ -200,13 +211,21 @@ void setup() {
   //Intensidad de los les de la matriz con modulo
   lc.setIntensity(0, 8);
   //Limpiamos la matriz con modulo
-  lc.clearDisplay(0);
+  lc.clearDisplay(0); 
+  //hasta aqui
+
+  
+  pinMode(19, INPUT); 
+  pinMode(20,OUTPUT);
 
 }
 
 void loop() {
+  time_init = millis();
+  Estado_Boton();
   letraActual = (letraActual + 1 >= caracteres) ? 0 : letraActual + 1; //------------------- Ciclo segun la cantidad de letras que haya -------------------------------
   desplazarLetra();
+  
 
 }
 
@@ -288,4 +307,37 @@ void setLetra(int x) {
       matriz[i][j] = oracion[x][j][i];
     }
   }
+}
+
+
+
+/*
+ * metodo para ver cuando se presiona el boton 3 seg y cuando se presiona rapidamente 
+ */
+void Estado_Boton(){
+  if(time_init - time_last > intervalo_button) {
+    int estado = digitalRead(19);
+    
+    if(estado == HIGH && estado_prev == LOW && !estate_button){
+      time_press = time_init;
+      estado_prev = HIGH;
+     }
+    duracion = time_init - time_press;
+
+    if(estado == HIGH && !estate_button && duracion >= min_time){
+      estate_button = true;
+      digitalWrite(20,HIGH); // enciende la led cuando se presiona durante 3 seg
+    }
+    if(estado == LOW && estado_prev == HIGH){
+      estado_prev = LOW;
+      estate_button = false;     
+      digitalWrite(20,LOW);
+
+      if (!estate_button && duracion < min_time){
+        //---aqui iria para pausar ya que este requiere una solo push corto del boton
+      }
+    }
+    time_last = time_init;
+  }
+  
 }

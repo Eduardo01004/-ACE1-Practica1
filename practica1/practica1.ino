@@ -1,3 +1,4 @@
+#include <Timer.h>
 #include <FrequencyTimer2.h>
 #include <LedControl.h>
 #define SPACE { \
@@ -10,7 +11,7 @@
     {0, 0, 0, 0, 0,0,0,0}\
   }
 
-  #define H { \
+#define H { \
     {0, 0, 0, 0, 0,0,0,0}, \
     {0, 1, 1, 0, 0,1,1,0}, \
     {0, 1, 1, 0, 0,1,1,0}, \
@@ -20,8 +21,8 @@
     {0, 1, 1, 0, 0,1,1,0}, \
     {0, 0, 0, 0, 0,0,0,0}\
   }
-  
-  #define G { \
+
+#define G { \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
     {0, 1, 1, 1, 1, 1, 1, 0}, \
     {0, 1, 0, 0, 0, 0, 0, 0}, \
@@ -32,7 +33,7 @@
     {0, 0, 0, 0, 0, 0, 0, 0}\
   }
 
-  #define THREE { \
+#define THREE { \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
     {0, 1, 1, 1, 1, 1, 1, 0}, \
     {0, 0, 0, 0, 0, 1, 1, 0}, \
@@ -43,7 +44,7 @@
     {0, 0, 0, 0, 0, 0, 0, 0}\
   }
 
-  #define GUION { \
+#define GUION { \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
@@ -53,7 +54,7 @@
     {0, 0, 0, 0, 0, 0, 0, 0}, \
     {0, 0, 0, 0, 0, 0, 0, 0}\
   }
-  #define S { \
+#define S { \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
     {0, 1, 1, 1, 1, 1, 1, 0}, \
     {0, 1, 0, 0, 0, 0, 0, 0}, \
@@ -64,7 +65,7 @@
     {0, 0, 0, 0, 0, 0, 0, 0}\
   }
 
-  #define E{ \
+#define E{ \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
     {0, 1, 1, 1, 1, 1, 1, 0}, \
     {0, 1, 0, 0, 0, 0, 0, 0}, \
@@ -75,7 +76,7 @@
     {0, 0, 0, 0, 0, 0, 0, 0}\
   }
 
-  #define C { \
+#define C { \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
     {0, 1, 1, 1, 1, 1, 1, 0}, \
     {0, 1, 1, 1, 1, 1, 1, 0}, \
@@ -86,7 +87,7 @@
     {0, 0, 0, 0, 0, 0, 0, 0}\
   }
 
-  #define I { \
+#define I { \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
     {0, 0, 0, 1, 1, 0, 0, 0}, \
     {0, 0, 0, 1, 1, 0, 0, 0}, \
@@ -97,7 +98,7 @@
     {0, 0, 0, 0, 0, 0, 0, 0}\
   }
 
-  #define O { \
+#define O { \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
     {0, 1, 1, 1, 1, 1, 1, 0}, \
     {0, 1, 1, 1, 1, 1, 1, 0}, \
@@ -107,8 +108,8 @@
     {0, 1, 1, 1, 1, 1, 1, 0}, \
     {0, 0, 0, 0, 0, 0, 0, 0}\
   }
-  
-  #define N { \
+
+#define N { \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
     {0, 1, 0, 0, 0, 0, 1, 0}, \
     {0, 1, 1, 0, 0, 0, 1, 0}, \
@@ -119,7 +120,7 @@
     {0, 0, 0, 0, 0, 0, 0, 0}\
   }
 
-  #define A { \
+#define A { \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
     {0, 1, 1, 1, 1, 1, 1, 0}, \
     {0, 1, 0, 0, 0, 0, 1, 0}, \
@@ -130,7 +131,7 @@
     {0, 0, 0, 0, 0, 0, 0, 0}\
   }
 
-  #define P { \
+#define P { \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
     {0, 1, 1, 1, 1, 1, 1, 0}, \
     {0, 1, 0, 0, 0, 0, 1, 0}, \
@@ -141,7 +142,7 @@
     {0, 0, 0, 0, 0, 0, 0, 0}\
   }
 
-  #define R { \
+#define R { \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
     {0, 1, 1, 1, 1, 1, 1, 0}, \
     {0, 1, 0, 0, 0, 0, 1, 0}, \
@@ -152,7 +153,7 @@
     {0, 0, 0, 0, 0, 0, 0, 0}\
   }
 
-  #define T { \
+#define T { \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
     {0, 1, 1, 1, 1, 1, 1, 0}, \
     {0, 1, 1, 1, 1, 1, 1, 0}, \
@@ -163,7 +164,7 @@
     {0, 0, 0, 0, 0, 0, 0, 0}\
   }
 
-  #define UNO { \
+#define UNO { \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
     {0, 0, 1, 1, 1, 0, 0, 0}, \
     {0, 1, 1, 1, 1, 0, 0, 0}, \
@@ -174,68 +175,90 @@
     {0, 0, 0, 0, 0, 0, 0, 0}\
   }
 
-  int columnas[8] = {0, 1, 2, 3, 4, 5, 6, 7};
-  int filas[8] = {15, 14, 13, 12, 11, 10, 9, 8};
-  int col = 0;
-  
-  int matriz[8][16];
-  
-  const int caracteres = 23;
-  byte oracion[caracteres][8][8] = { SPACE, G , THREE, GUION , S , E , C , C , I , O , N , A , GUION , P , R , A , C , T , I , C , A , UNO , SPACE};
-  int letraActual = 0;
+int columnas[8] = {0, 21, 2, 3, 4, 5, 6, 7};
+int filas[8] = {15, 14, 13, 12, 11, 10, 9, 8};
 
-  // para el boton
-  unsigned long time_init; //tiempo desde que el arduino comienza a iniciar /current
-  unsigned long time_last; // ultimo tiempo de la lectura 
-  const int intervalo_button = 50;
-  int estado_prev = LOW;    //estado previo stateprevius
-  unsigned long time_press; //longopress
-  unsigned long duracion;
-  bool estate_button = false;
-  unsigned long min_time = 3000;  // 3 segundos
+int matriz[16][8];
+
+const int caracteres = 22;
+byte oracion[caracteres][8][8] = { G , THREE, GUION , S , E , C , C , I , O , N , A , GUION , P , R , A , C , T , I , C , A , UNO , SPACE};
+int letraActual = 0;
+int lineaActual = 0;
+
+// para el boton
+unsigned long time_init; //tiempo desde que el arduino comienza a iniciar /current
+unsigned long time_last; // ultimo tiempo de la lectura
+const int intervalo_button = 50;
+int estado_prev = LOW;    //estado previo stateprevius
+unsigned long time_press; //longopress
+unsigned long duracion;
+bool estate_button = false;
+unsigned long min_time = 1500;  // 3 segundos
 
 LedControl lc = LedControl(16, 18, 17, 1);
+
+//--------------------------------------------------- HILOS ---------------------
+Timer timer1;
+Timer timer2;
+
+
 void setup() {
-  //desde aqui si funciona con el boton tira como "lag" en proteus
+  Serial.begin(9600);
+  //---------------------------------------- SETEAMOS LOS PINES
   for (int i = 0; i  < 16; i++) pinMode(i, OUTPUT);
-  for (int i = 0; i  < 16; i++) digitalWrite(columnas[i], LOW);
+  pinMode(21, OUTPUT);
+  pinMode(20, OUTPUT);
+  pinMode(19, INPUT);
 
   clearLeds(); //------------------------- Si se inicia de nuevo entonces limpiaremos la matriz de leds
-  FrequencyTimer2::disable(); //-------------------------------------- Si hay alguno ya iniciado lo quitamos
-  FrequencyTimer2::setPeriod(3500); //-------------------------------- Intervalor en la que se refrescara la letra
-  FrequencyTimer2::setOnOverflow(display); //---------------------- Metodo que se encargara de mostrar la letra
 
-  setLetra(letraActual);
 
   lc.shutdown(0, false);
   //Intensidad de los les de la matriz con modulo
   lc.setIntensity(0, 8);
   //Limpiamos la matriz con modulo
-  lc.clearDisplay(0); 
+  lc.clearDisplay(0);
   //hasta aqui
 
-  
-  pinMode(19, INPUT); 
-  pinMode(20,OUTPUT);
+
+
+
+
+  timer2.every(150, desplazarLetra, 0); //------------------------- Este tiempo dictara la velocidad en la que se mostraran las figuras/letras
+  timer1.every(5, game, 0); //--------------------------------------- Hilo para el resto del juego
 
 }
 
 void loop() {
   time_init = millis();
-  Estado_Boton();
-  letraActual = (letraActual + 1 >= caracteres) ? 0 : letraActual + 1; //------------------- Ciclo segun la cantidad de letras que haya -------------------------------
-  desplazarLetra();
+  timer1.update();
+  //timer2.update();
+  
   
 
+
 }
+
+
+/**
+   METODO PRINCIPAL DEL JUEGO
+*/
+void game() {
+  Estado_Boton();
+  showMatrizModulo();
+  showMatrizSinModulo();
+  
+}
+
+
 
 /**
    METODO QUE PONDRA LA MATRIZ EN 0'S
 */
 void clearLeds()
 {
-  for (int i = 0; i < 8; i++) {
-    for (int j = 0; j < 16; j++) {
+  for (int i = 0; i < 16; i++) {
+    for (int j = 0; j < 8; j++) {
       matriz[i][j] = 0;
     }
 
@@ -251,92 +274,91 @@ void desplazarLetra()
 {
 
   //------ A la matriz actual, movemos los datos ya en ella 1 posicion
-  for (int n = 0; n < 8; n++) {
-    for (int i = 0; i < 8; i++) {
-      for (int j = 0; j < 16; j++) {
-        matriz[i][j] = matriz[i][j + 1];
-      }
-
+  for (int i = 0; i < 16; i++) {
+    for (int j = 0; j < 8; j++) {
+      if (i + 1 > 15) matriz[i][j] = matriz[0][j];
+      else matriz[i][j] = matriz[i + 1][j];
     }
 
-    //---------------------- LLenamos en la ultima posicion de la matriz la siguiente fila de la letra actual
-    int y = 0;
-    for (int i = 0; i < 8; i++) {
-      matriz[y][15] = oracion[letraActual][n][i];
-      y = (y + 1 > 7) ? 0 : y + 1; //--------- Si es mayor a 8 se regresa a 0 ya que cada figura es de 8x8
-      delay(5); // Este tiempo es el que se cambiara dependiendo la velocidad que se quiera la palabra
-    }
+  }
+
+  for (int i = 0; i < 8; i++) {
+    matriz[15][i] = oracion[letraActual][lineaActual][i];
+
+  }
+
+  lineaActual++;
+  if (lineaActual > 7) {
+    lineaActual = 0;
+    letraActual = (letraActual + 1 >= caracteres) ? 0 : letraActual + 1;
   }
 }
 
 /**
    METODO QUE MOSTRARA LO QUE ESTE DENTRO DE LA MATRIZ ACTUAL
+   DESDE LAS POSICIONES 8-15
 */
-void display() {
-  digitalWrite(columnas[col], LOW);
-  col++;
+void showMatrizModulo() {
+  for (int j = 0; j < 8; j++) {
+
+    for (int i = 0; i < 8; i++) {
+      //------------------- MATRIZ INFERIOR
+      if (matriz[i+8][j] == 1) lc.setLed(0, j, i, true);
+      else lc.setLed(0, j, i, false);
+      
+    }
   
-  if (col == 8) col = 0;
-  for (int i = 0; i < 8; i++) {
-
-  //--------------- MATRIZ SUPERIOR -----------------------------------
-    if (matriz[col][i] == 1) digitalWrite(filas[i], LOW);
-    else digitalWrite(filas[i], HIGH);
-    
-  //------------------- MATRIZ INFERIOR
-   if (matriz[col][i+8] == 1) lc.setLed(0,col,i,true);
-   else lc.setLed(0,col,i,false);
-
-   
-
   }
-   
-  digitalWrite(columnas[col], HIGH);
-  delay(5);
 }
-
 
 /**
-   METODO QUE SE ENCARGARA DE MANEJAR
-   QUE LETRA ES LA ACTUAL
-   @param x, indice de la letra a asignar
+   METODO QUE MOSTRARA LO QUE ESTE DENTRO DE LA MATRIZ ACTUAL
+   DESDE LAS POSICIONES 0-7
 */
-void setLetra(int x) {
-  for (int i = 0; i < 8; i++) {
-    for (int j = 0; j < 8; j++) {
-      matriz[i][j] = oracion[x][j][i];
+void showMatrizSinModulo() {
+
+  for(int i = 0; i < 8; i++){
+    for(int j = 0; j < 8; j++){
+      if(matriz[i+1][j] == 1) digitalWrite(filas[j],LOW);
+      else digitalWrite(filas[j],HIGH);
     }
+    digitalWrite(columnas[i], HIGH);
+    delay(1);
+    digitalWrite(columnas[i], LOW);
   }
+  
+  
 }
+
 
 
 
 /*
- * metodo para ver cuando se presiona el boton 3 seg y cuando se presiona rapidamente 
- */
-void Estado_Boton(){
-  if(time_init - time_last > intervalo_button) {
+   metodo para ver cuando se presiona el boton 3 seg y cuando se presiona rapidamente
+*/
+void Estado_Boton() {
+  if (time_init - time_last > intervalo_button) {
     int estado = digitalRead(19);
-    
-    if(estado == HIGH && estado_prev == LOW && !estate_button){
+
+    if (estado == HIGH && estado_prev == LOW && !estate_button) {
       time_press = time_init;
       estado_prev = HIGH;
-     }
+    }
     duracion = time_init - time_press;
 
-    if(estado == HIGH && !estate_button && duracion >= min_time){
+    if (estado == HIGH && !estate_button && duracion >= min_time) {
       estate_button = true;
-      digitalWrite(20,HIGH); // enciende la led cuando se presiona durante 3 seg
+      digitalWrite(20, HIGH); // enciende la led cuando se presiona durante 3 seg
     }
-    if(estado == LOW && estado_prev == HIGH){
+    if (estado == LOW && estado_prev == HIGH) {
       estado_prev = LOW;
-      estate_button = false;     
-      digitalWrite(20,LOW);// apaga la led cuando se deja de presionar el boton
-      if (!estate_button && duracion < min_time){
+      estate_button = false;
+      digitalWrite(20, LOW); // apaga la led cuando se deja de presionar el boton
+      if (!estate_button && duracion < min_time) {
         //---aqui iria para pausar ya que este requiere una solo push corto del boton
       }
     }
     time_last = time_init;
   }
-  
+
 }

@@ -331,8 +331,7 @@ void Estado_Boton(){
     if(estado == LOW && estado_prev == HIGH){
       estado_prev = LOW;
       estate_button = false;     
-      digitalWrite(20,LOW);
-
+      digitalWrite(20,LOW);// apaga la led cuando se deja de presionar el boton
       if (!estate_button && duracion < min_time){
         //---aqui iria para pausar ya que este requiere una solo push corto del boton
       }

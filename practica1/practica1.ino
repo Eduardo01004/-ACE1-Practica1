@@ -232,7 +232,7 @@ void setup() {
 void loop() {
   time_init = millis();
   timer1.update();
-  //timer2.update();
+  timer2.update();
   
   
 

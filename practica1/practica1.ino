@@ -184,8 +184,16 @@ int matriz[16][8];
 
 const int caracteres = 22;
 byte oracion[caracteres][8][8] = { G , THREE, GUION , S , E , C , C , I , O , N , A , GUION , P , R , A , C , T , I , C , A , UNO , SPACE};
+//----------------------------------------- DESPLAZAMIENTO ---------------------------------------------------
 int letraActual = 0;
-int lineaActual = 0;
+int lineaActual = 7;
+/**
+ * 0: Abajo -> Arriba
+ * 1: Arriba->Abajo
+ */
+int flagDesplazamiento = 0; 
+
+
 //para los enemigos
 long randompos;
 
@@ -225,7 +233,7 @@ void setup() {
   //hasta aqui
 
 
-  timer2.every(150, desplazarLetra, 0); //------------------------- Este tiempo dictara la velocidad en la que se mostraran las figuras/letras
+  timer2.every(150, tipoDesplazamiento, 0); //------------------------- Este tiempo dictara la velocidad en la que se mostraran las figuras/letras
   timer1.every(5, game, 0); //--------------------------------------- Hilo para el resto del juego
 
   //Inicializamos la comunicación serial
@@ -246,6 +254,7 @@ void loop() {
    METODO PRINCIPAL DEL JUEGO
 */
 void game() {
+  verificarOrientacion();
   Estado_Boton();
   showMatrizModulo();
   showMatrizSinModulo();
@@ -253,6 +262,10 @@ void game() {
 }
 
 
+
+void verificarOrientacion(){
+  
+}
 
 /**
    METODO QUE PONDRA LA MATRIZ EN 0'S
@@ -271,6 +284,7 @@ void clearLeds()
 /**
    METODO QUE SE ENCARGARA
    DE IR A LA SIGUIENTE LETRA
+   ABAJO -> ARRIBA
 */
 void desplazarLetra()
 {
@@ -296,9 +310,41 @@ void desplazarLetra()
   }
 }
 
+
+
+/**
+   METODO QUE SE ENCARGARA
+   DE IR A LA SIGUIENTE LETRA
+   ARRIBA -> ABAJO
+*/
+void desplazarLetraInversa()
+{
+
+  //------ A la matriz actual, movemos los datos ya en ella 1 posicion
+  for (int i = 15; i > -1; i--) {
+    for (int j = 0; j < 8; j++) {
+      if (i - 1 < 0) matriz[i][j] = matriz[15][j];
+      else matriz[i][j] = matriz[i - 1][j];
+    }
+
+  }
+
+  for (int i = 0; i < 8; i++) {
+    matriz[0][i] = oracion[letraActual][lineaActual][i];
+
+  }
+
+  lineaActual--;
+  if (lineaActual < 0) {
+    lineaActual = 7;
+    letraActual = (letraActual + 1 >= caracteres) ? 0 : letraActual + 1;
+  }
+}
+
 /**
    METODO QUE MOSTRARA LO QUE ESTE DENTRO DE LA MATRIZ ACTUAL
    DESDE LAS POSICIONES 8-15
+   ABAJO -> ARRIBA
 */
 void showMatrizModulo() {
   for (int j = 0; j < 8; j++) {
@@ -312,6 +358,9 @@ void showMatrizModulo() {
   
   }
 }
+
+
+
 
 /**
    METODO QUE MOSTRARA LO QUE ESTE DENTRO DE LA MATRIZ ACTUAL

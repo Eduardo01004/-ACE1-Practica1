@@ -2,6 +2,18 @@
 #include <Timer.h>
 #include <FrequencyTimer2.h>
 #include <LedControl.h>
+
+#define CAR { \
+    {0, 0, 0, 0, 0, 0, 0, 0}, \
+    {0, 0, 0, 0, 0, 0, 0, 0}, \
+    {0, 0, 0, 0, 0, 0, 0, 0}, \
+    {0, 0, 0, 0, 0, 0, 0, 0}, \
+    {0, 0, 1, 1, 1, 0, 0, 0}, \
+    {0, 0, 0, 1, 0, 0, 0, 0}, \
+    {0, 0, 1, 1, 1, 0, 0, 0}\
+  }
+
+
 #define SPACE { \
     {0, 0, 0, 0, 0,0,0,0}, \
     {0, 0, 0, 0, 0,0,0,0}, \
@@ -174,6 +186,8 @@ const int caracteres = 22;
 byte oracion[caracteres][8][8] = { G , THREE, GUION , S , E , C , C , I , O , N , A , GUION , P , R , A , C , T , I , C , A , UNO , SPACE};
 int letraActual = 0;
 int lineaActual = 0;
+//para los enemigos
+long randompos;
 
 // para el boton
 unsigned long time_init; //tiempo desde que el arduino comienza a iniciar /current
@@ -214,6 +228,11 @@ void setup() {
   timer2.every(150, desplazarLetra, 0); //------------------------- Este tiempo dictara la velocidad en la que se mostraran las figuras/letras
   timer1.every(5, game, 0); //--------------------------------------- Hilo para el resto del juego
 
+  //Inicializamos la comunicación serial
+   //Serial.begin(#numero);
+  //randomEnemigo();
+  //Establecemos la semilla en un pin analogico (Cada vez que se juegue las posiciones de los enemigos seran diferentes para cada inicio)
+  //randomSeed(analogRead(A0));
 }
 
 void loop() {
@@ -343,3 +362,16 @@ void Estado_Boton() {
   }
 
 }
+
+// Metodo para generar enemigos random 0=izquierda, 1=centro y 2=derecha !*Se tiene que probar*!
+void randomEnemigo(){
+  //Genera un numero aleatorio entre 0 y 2
+  randompos = random(0,2);
+  
+  //Escribe el numero aleatorio por el puerto serie
+  Serial.print("El numero aleatorio es = ");
+  Serial.println(randompos);
+ 
+  //Esperamos 1 segundo para repetir
+  delay(1000);
+  }

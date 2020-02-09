@@ -186,12 +186,13 @@ const int caracteres = 22;
 byte oracion[caracteres][8][8] = { G , THREE, GUION , S , E , C , C , I , O , N , A , GUION , P , R , A , C , T , I , C , A , UNO , SPACE};
 //----------------------------------------- DESPLAZAMIENTO ---------------------------------------------------
 int letraActual = 0;
-int lineaActual = 7;
+int lineaActual = 0;
 /**
  * 0: Abajo -> Arriba
  * 1: Arriba->Abajo
  */
 int flagDesplazamiento = 0; 
+int oldDesplazamiento = 0; // Almacenara el anterior estado
 
 
 //para los enemigos
@@ -221,6 +222,8 @@ void setup() {
   pinMode(21, OUTPUT);
   pinMode(20, OUTPUT);
   pinMode(19, INPUT);
+
+  pinMode(A0,INPUT); //-------------- SWITCH PARA CAMBIAR ORIENTACION
 
   clearLeds(); //------------------------- Si se inicia de nuevo entonces limpiaremos la matriz de leds
 
@@ -262,11 +265,37 @@ void game() {
 }
 
 
-
+/**
+ * METODO QUE OBTENDRA EL VALOR
+ * DEL SWITCH QUE DIRIGIRA
+ * LA ORIENTACION
+ */
 void verificarOrientacion(){
-  
+  int estado = digitalRead(A0);
+  if(estado == 1){
+    flagDesplazamiento = 1;
+    if(flagDesplazamiento != oldDesplazamiento){
+      lineaActual = 7;
+      oldDesplazamiento = 1;
+    }
+  }else{
+    flagDesplazamiento = 0;
+    if(flagDesplazamiento != oldDesplazamiento){
+      lineaActual = 0;
+      oldDesplazamiento = 0;
+    }
+  }
 }
 
+
+/**
+ * METODO QUE SE ENCARGARA DE VERIFICAR LA FLAG
+ * 
+ */
+void tipoDesplazamiento(){
+  if(flagDesplazamiento == 0) desplazarLetra();
+  else desplazarLetraInversa();
+}
 /**
    METODO QUE PONDRA LA MATRIZ EN 0'S
 */

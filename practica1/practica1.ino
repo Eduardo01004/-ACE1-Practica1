@@ -198,6 +198,10 @@ int oldDesplazamiento = 0; // Almacenara el anterior estado
 //para los enemigos
 long randompos;
 
+int num = 0;//variable enemigos
+int num1 = 0;//variable de n y n-100
+
+
 // para el boton
 unsigned long time_init; //tiempo desde que el arduino comienza a iniciar /current
 unsigned long time_last; // ultimo tiempo de la lectura
@@ -250,6 +254,40 @@ void loop() {
   time_init = millis();
   timer1.update();
   timer2.update();
+
+  /* En este metodo se genera una probabilidad para la generacion de 0´s y 1´s del 
+1 al 10 con una base de 5 para mejorar el random, hay un for que genera la cantidad de 1´s
+que dio la probasbilidad y se puede ver la entrada principal es n (que son los 1´s que se 
+generan) y esta la otra 100-n que son los 0´s que se generan 
+es decir una depende de la otra*/
+
+  num=random(1,10);
+  int val2 = 10-num;
+    Serial.print("El n es = ");
+    Serial.println(num);
+    Serial.print("El 100-n es = ");
+    Serial.println(val2);
+      for (int x=0; x<num; x++) {   
+        Serial.println("1");
+      }
+  delay(1000); 
+// aca se generan los enemigos identificando la posicion 
+  num1=random(1,4);
+  Serial.println(num1);
+  
+
+  if(num1 == 1){
+    Serial.println("left");
+    }
+    if(num1 == 2){
+    Serial.println("center");
+    }
+    if(num1 == 3){
+    Serial.println("right");
+    }
+    delay(1000); 
+
+  
 }
 
 

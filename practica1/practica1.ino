@@ -489,9 +489,7 @@ void game() {
   Estado_Boton();
   showMatrizModulo();
   showMatrizSinModulo();
-  //Cronometro();
   Temporizador();
-  //Potenciometro();
   
 }
 
@@ -499,14 +497,7 @@ void game() {
  * METODO QUE SE ENCARGARA DE VERIFICAR LA FLAG
  * 
  */
- void Temporizador(){
-  tiempo_cronometro2 = millis();
-  if (tiempo_cronometro2 > (tiempo_cronometro + 1000) && flag_cronometro == true){
-    tiempo_cronometro = millis();
-    segundos++; 
-   
-  }
- }
+
 void tipoDesplazamiento(){
   switch (fase_inicial){
   case 0:
@@ -603,7 +594,10 @@ void desplazarLetra()
     letraActual = (letraActual + 1 >= caracteres) ? 0 : letraActual + 1;
   }
 }
-;
+
+/*
+ * Metodo que se usa para contar del 0 al 3
+ */
 void Contador(){
     duration = duracion ; //------si se quita el 1000 hay un pequeño retraso al iniciar
     if ((duration/1000) >= 2)
@@ -623,24 +617,26 @@ void Contador(){
     } 
   
 }
-
+/*
+ * Metodo que se encarga de llenar la matariz con los numeros
+ */
 
 void Llenar_Matriz(int decena[16][8], int unidad[8][8]){
   for (int i = 0; i < 8; i++){
         for (int j = 0; j < 8; j++){
            matriz[i][j] = decena[i-1][j]; // muestra el cero constante en la matriz sin modulo
         }
-        
     }
-
     for(int a = 8; a < 16; a++){
         for(int b = 0; b < 8; b++){
           matriz[a][b] = unidad[a - 9][b]; // muestra los numeros 1-2-3 en la matriz con modulo estos 3 for de abajo
         }
       }
-    
-    
 }
+
+/*
+ * Metodo que se encarga de contar hasta 99
+ */
 void Cronometro(){
   // if estado == 2 juego
   if (segundos >= 99){
@@ -651,9 +647,9 @@ void Cronometro(){
      int decena = segundos / 10;
      int unidad = segundos % 10;
      if ( decena == 0 ) Clonar(matriz_temp1 , contador_0);
-     if (decena == 1) Clonar(matriz_temp1 , contador_1);
-     if (decena == 2) Clonar(matriz_temp1 , contador_2);
-     if (decena == 3) Clonar(matriz_temp1 , contador_3);
+     else if (decena == 1) Clonar(matriz_temp1 , contador_1);
+     else if (decena == 2) Clonar(matriz_temp1 , contador_2);
+     else if (decena == 3) Clonar(matriz_temp1 , contador_3);
      else if (decena == 4) Clonar(matriz_temp1 , contador_4);
      else if (decena == 5) Clonar(matriz_temp1 , contador_5);
      else if (decena == 6) Clonar(matriz_temp1 , contador_6);
@@ -676,6 +672,9 @@ void Cronometro(){
   
  
 }
+/*
+ * Metodo Que se encarga de clonar una matriz 
+ */
 
 void Clonar(int matriz1[8][8], int matriz2 [8][8]){
 
@@ -685,6 +684,18 @@ void Clonar(int matriz1[8][8], int matriz2 [8][8]){
     }
   }
 }
+
+/*
+ * Metodo que se Encarga de contar los segundos 
+ */
+ void Temporizador(){
+  tiempo_cronometro2 = millis();
+  if (tiempo_cronometro2 > (tiempo_cronometro + 1000) && flag_cronometro == true){
+    tiempo_cronometro = millis();
+    segundos++; 
+   
+  }
+ }
 
 /**
    METODO QUE SE ENCARGARA

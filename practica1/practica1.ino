@@ -3,86 +3,16 @@
 #include <FrequencyTimer2.h>
 #include <LedControl.h>
 
-#define CERO { \
+#define CAR { \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
-    {0, 0, 1, 1, 1, 1, 0, 0}, \
-    {0, 1, 1, 0, 0, 0, 1, 0}, \
-    {0, 1, 0, 1, 0, 0, 1, 0}, \
-    {0, 1, 0, 0, 1, 0, 1, 0}, \
-    {0, 1, 0, 0, 0, 1, 1, 0}, \
-    {0, 0, 1, 1, 1, 1, 0, 0}, \
-    {0, 0, 0, 0, 0, 0, 0, 0}\
-  }
-
-#define DOS { \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
-    {0, 0, 0, 1, 1, 1, 1, 0}, \
-    {0, 0, 1, 0, 0, 0, 0, 0}, \
-    {0, 0, 1, 1, 1, 1, 0, 0}, \
-    {0, 0, 0, 0, 0, 0, 1, 0}, \
-    {0, 0, 0, 0, 0, 0, 1, 0}, \
-    {0, 0, 1, 1, 1, 1, 1, 0}\
-  }
-
-#define NINE { \
-    {0, 0, 0, 1, 1, 1, 0, 0}, \
-    {0, 0, 1, 0, 0, 0, 1, 0}, \
-    {0, 0, 1, 0, 0, 0, 1, 0}, \
-    {0, 0, 1, 1, 1, 1, 0, 0}, \
-    {0, 0, 1, 0, 0, 0, 0, 0}, \
-    {0, 0, 1, 0, 0, 0, 1, 0}, \
-    {0, 0, 0, 1, 1, 1, 0, 0}\
-  }
-
-#define OCHO { \
-    {0, 0, 0, 1, 1, 1, 0, 0}, \
-    {0, 0, 1, 0, 0, 0, 1, 0}, \
-    {0, 0, 1, 0, 0, 0, 1, 0}, \
-    {0, 0, 0, 1, 1, 1, 0, 0}, \
-    {0, 0, 1, 0, 0, 0, 1, 0}, \
-    {0, 0, 1, 0, 0, 0, 1, 0}, \
-    {0, 0, 0, 1, 1, 1, 0, 0}\
-  }
-
-#define SEVEN { \
-    {0, 0, 1, 1, 1, 1, 1, 0}, \
-    {0, 0, 1, 0, 0, 0, 0, 0}, \
-    {0, 0, 1, 0, 0, 0, 0, 0}, \
+    {0, 0, 0, 0, 0, 0, 0, 0}, \
+    {0, 0, 0, 0, 0, 0, 0, 0}, \
+    {0, 0, 1, 1, 1, 0, 0, 0}, \
     {0, 0, 0, 1, 0, 0, 0, 0}, \
-    {0, 0, 0, 0, 1, 0, 0, 0}, \
-    {0, 0, 0, 0, 1, 0, 0, 0}, \
-    {0, 0, 0, 0, 1, 0, 0, 0}\
-  }
-  
-#define SIX { \
-    {0, 0, 0, 1, 1, 1, 1, 0}, \
-    {0, 0, 0, 0, 0, 0, 1, 0}, \
-    {0, 0, 0, 0, 0, 0, 1, 0}, \
-    {0, 0, 1, 1, 1, 1, 1, 0}, \
-    {0, 0, 1, 0, 0, 0, 1, 0}, \
-    {0, 0, 1, 0, 0, 0, 1, 0}, \
-    {0, 0, 1, 1, 1, 1, 1, 0}\
+    {0, 0, 1, 1, 1, 0, 0, 0}\
   }
 
-#define FIVE { \
-    {0, 0, 0, 0, 0, 0, 0, 0}, \
-    {0, 0, 1, 1, 1, 1, 1, 0}, \
-    {0, 0, 0, 0, 0, 0, 1, 0}, \
-    {0, 0, 1, 1, 1, 1, 1, 0}, \
-    {0, 0, 1, 0, 0, 0, 0, 0}, \
-    {0, 0, 1, 0, 0, 0, 0, 0}, \
-    {0, 0, 1, 1, 1, 1, 1, 0}\
-  }
-
-#define FOUR { \
-    {0, 0, 0, 0, 0, 0, 0, 0}, \
-    {0, 0, 1, 0, 0, 0, 1, 0}, \
-    {0, 0, 1, 0, 0, 0, 1, 0}, \
-    {0, 0, 1, 1, 1, 1, 1, 0}, \
-    {0, 0, 1, 0, 0, 0, 0, 0}, \
-    {0, 0, 1, 0, 0, 0, 0, 0}, \
-    {0, 0, 1, 0, 0, 0, 0, 0}\
-  }
 
 #define SPACE { \
     {0, 0, 0, 0, 0,0,0,0}, \
@@ -96,12 +26,12 @@
 
 #define G { \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
-    {0, 1, 1, 1, 1, 1, 1, 0}, \
-    {0, 0, 0, 0, 0, 0, 1, 0}, \
-    {0, 1, 1, 1, 1, 0, 1, 0}, \
+    {0, 0, 1, 1, 1, 1, 1, 0}, \
+    {0, 1, 0, 0, 0, 0, 0, 0}, \
+    {0, 1, 0, 1, 1, 1, 1, 0}, \
     {0, 1, 0, 0, 0, 0, 1, 0}, \
     {0, 1, 0, 0, 0, 0, 1, 0}, \
-    {0, 1, 1, 1, 1, 1, 0, 0}, \
+    {0, 0, 1, 1, 1, 1, 1, 0}, \
     {0, 0, 0, 0, 0, 0, 0, 0}\
   }
 
@@ -109,8 +39,8 @@
     {0, 0, 0, 0, 0, 0, 0, 0}, \
     {0, 0, 0, 1, 1, 1, 0, 0}, \
     {0, 0, 1, 0, 0, 0, 1, 0}, \
-    {0, 0, 1, 0, 0, 0, 0, 0}, \
-    {0, 0, 1, 1, 1, 0, 0, 0}, \
+    {0, 0, 0, 0, 0, 0, 1, 0}, \
+    {0, 0, 0, 0, 1, 1, 1, 0}, \
     {0, 0, 1, 0, 0, 0, 1, 0}, \
     {0, 0, 0, 1, 1, 1, 0, 0}, \
     {0, 0, 0, 0, 0, 0, 0, 0}\
@@ -128,22 +58,22 @@
   }
 #define S { \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
+    {0, 0, 1, 1, 1, 1, 1, 0}, \
+    {0, 1, 0, 0, 0, 0, 0, 0}, \
     {0, 1, 1, 1, 1, 1, 0, 0}, \
     {0, 0, 0, 0, 0, 0, 1, 0}, \
-    {0, 0, 1, 1, 1, 1, 0, 0}, \
-    {0, 1, 0, 0, 0, 0, 0, 0}, \
-    {0, 1, 0, 0, 0, 0, 0, 0}, \
-    {0, 0, 1, 1, 1, 1, 0, 0}, \
+    {0, 0, 0, 0, 0, 0, 1, 0}, \
+    {0, 1, 1, 1, 1, 1, 0, 0}, \
     {0, 0, 0, 0, 0, 0, 0, 0}\
   }
 
 #define E{ \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
     {0, 1, 1, 1, 1, 1, 1, 0}, \
-    {0, 0, 0, 0, 0, 0, 1, 0}, \
-    {0, 0, 1, 1, 1, 1, 1, 0}, \
-    {0, 0, 1, 1, 1, 1, 1, 0}, \
-    {0, 0, 0, 0, 0, 0, 1, 0}, \
+    {0, 1, 0, 0, 0, 0, 0, 0}, \
+    {0, 1, 1, 1, 1, 1, 1, 0}, \
+    {0, 1, 1, 1, 1, 1, 1, 0}, \
+    {0, 1, 0, 0, 0, 0, 0, 0}, \
     {0, 1, 1, 1, 1, 1, 1, 0}, \
     {0, 0, 0, 0, 0, 0, 0, 0}\
   }
@@ -152,8 +82,8 @@
     {0, 0, 0, 0, 0, 0, 0, 0}, \
     {0, 0, 1, 1, 1, 1, 0, 0}, \
     {0, 1, 0, 0, 0, 0, 1, 0}, \
-    {0, 0, 0, 0, 0, 0, 1, 0}, \
-    {0, 0, 0, 0, 0, 0, 1, 0}, \
+    {0, 1, 0, 0, 0, 0, 0, 0}, \
+    {0, 1, 0, 0, 0, 0, 0, 0}, \
     {0, 1, 0, 0, 0, 0, 1, 0}, \
     {0, 0, 1, 1, 1, 1, 0, 0}, \
     {0, 0, 0, 0, 0, 0, 0, 0}\
@@ -184,10 +114,10 @@
 #define N { \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
     {0, 1, 0, 0, 0, 0, 1, 0}, \
-    {0, 1, 0, 0, 0, 1, 1, 0}, \
-    {0, 1, 0, 0, 1, 0, 1, 0}, \
-    {0, 1, 0, 1, 0, 0, 1, 0}, \
     {0, 1, 1, 0, 0, 0, 1, 0}, \
+    {0, 1, 0, 1, 0, 0, 1, 0}, \
+    {0, 1, 0, 0, 1, 0, 1, 0}, \
+    {0, 1, 0, 0, 0, 1, 1, 0}, \
     {0, 1, 0, 0, 0, 0, 1, 0}, \
     {0, 0, 0, 0, 0, 0, 0, 0}\
   }
@@ -209,18 +139,18 @@
     {0, 1, 0, 0, 0, 0, 1, 0}, \
     {0, 1, 0, 0, 0, 0, 1, 0}, \
     {0, 1, 1, 1, 1, 1, 1, 0}, \
-    {0, 0, 0, 0, 0, 0, 1, 0}, \
-    {0, 0, 0, 0, 0, 0, 1, 0}, \
+    {0, 1, 0, 0, 0, 0, 0, 0}, \
+    {0, 1, 0, 0, 0, 0, 0, 0}, \
     {0, 0, 0, 0, 0, 0, 0, 0}\
   }
 
 #define R { \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
-    {0, 0, 1, 1, 1, 1, 1, 0}, \
+    {0, 1, 1, 1, 1, 1, 1, 0}, \
     {0, 1, 0, 0, 0, 0, 1, 0}, \
     {0, 1, 0, 0, 0, 0, 1, 0}, \
-    {0, 0, 1, 1, 1, 1, 1, 0}, \
-    {0, 0, 1, 0, 0, 0, 1, 0}, \
+    {0, 1, 1, 1, 1, 1, 1, 0}, \
+    {0, 1, 0, 0, 0, 1, 0, 0}, \
     {0, 1, 0, 0, 0, 0, 1, 0}, \
     {0, 0, 0, 0, 0, 0, 0, 0}\
   }
@@ -239,66 +169,17 @@
 #define UNO { \
     {0, 0, 0, 0, 0, 0, 0, 0}, \
     {0, 0, 0, 1, 1, 0, 0, 0}, \
-    {0, 0, 0, 1, 1, 1, 0, 0}, \
-    {0, 0, 0, 1, 1, 1, 1, 0}, \
+    {0, 0, 1, 1, 1, 0, 0, 0}, \
+    {0, 1, 1, 1, 1, 0, 0, 0}, \
     {0, 0, 0, 1, 1, 0, 0, 0}, \
     {0, 0, 0, 1, 1, 0, 0, 0}, \
     {0, 1, 1, 1, 1, 1, 1, 0}, \
     {0, 0, 0, 0, 0, 0, 0, 0}\
   }
 
-//----------------------Contador Aescendente 
-int contador_0[8][8] =  { \
-    {0, 0, 0, 0, 0, 0, 0, 0}, \
-    {0, 0, 1, 1, 1, 1, 0, 0}, \
-    {0, 1, 0, 0, 0, 0, 1, 0}, \
-    {0, 1, 0, 0, 0, 0, 1, 0}, \
-    {0, 1, 0, 0, 0, 0, 1, 0}, \
-    {0, 1, 0, 0, 0, 0, 1, 0}, \
-    {0, 0, 1, 1, 1, 1, 0, 0}, \
-    {0, 0, 0, 0, 0, 0, 0, 0}\
-  };
-
-  int contador_1[8][8] = { \
-    {0, 0, 0, 0, 0, 0, 0, 0}, \
-    {0, 0, 0, 1, 1, 0, 0, 0}, \
-    {0, 0, 0, 1, 1, 1, 0, 0}, \
-    {0, 0, 0, 1, 1, 1, 1, 0}, \
-    {0, 0, 0, 1, 1, 0, 0, 0}, \
-    {0, 0, 0, 1, 1, 0, 0, 0}, \
-    {0, 1, 1, 1, 1, 1, 1, 0}, \
-    {0, 0, 0, 0, 0, 0, 0, 0}\
-  };
-
-  int contador_2[8][8] = { \
-    {0, 0, 0, 0, 0, 0, 0, 0}, \
-    {0, 0, 0, 1, 1, 1, 1, 0}, \
-    {0, 0, 1, 0, 0, 0, 0, 0}, \
-    {0, 0, 1, 1, 1, 1, 0, 0}, \
-    {0, 0, 0, 0, 0, 0, 1, 0}, \
-    {0, 0, 0, 0, 0, 0, 1, 0}, \
-    {0, 0, 1, 1, 1, 1, 1, 0}\
-  };
-
-  int contador_3[8][8] = { \
-    {0, 0, 0, 0, 0, 0, 0, 0}, \
-    {0, 0, 0, 1, 1, 1, 0, 0}, \
-    {0, 0, 1, 0, 0, 0, 1, 0}, \
-    {0, 0, 1, 0, 0, 0, 0, 0}, \
-    {0, 0, 1, 1, 1, 0, 0, 0}, \
-    {0, 0, 1, 0, 0, 0, 1, 0}, \
-    {0, 0, 0, 1, 1, 1, 0, 0}, \
-    {0, 0, 0, 0, 0, 0, 0, 0}\
-  };
-
-int fase_inicial = 0; // variable para el switch de control
-unsigned long tiempoini;
-unsigned long time_ultimo;
-unsigned long time_past;
-unsigned long duration;
-
 int columnas[8] = {0, 21, 2, 3, 4, 5, 6, 7};
 int filas[8] = {15, 14, 13, 12, 11, 10, 9, 8};
+
 int matriz[16][8];
 
 const int caracteres = 22;
@@ -316,10 +197,10 @@ int oldDesplazamiento = 0; // Almacenara el anterior estado
 
 int num = 0;//variable enemigos
 int num1 = 0;//variable de n y n-100
+int num2 = 0;//variable para ver random de enemigos o espacios
 
 
-
-//--------------------------------- para el boton
+// para el boton
 unsigned long time_init; //tiempo desde que el arduino comienza a iniciar /current
 unsigned long time_last; // ultimo tiempo de la lectura
 const int intervalo_button = 50;
@@ -327,7 +208,7 @@ int estado_prev = LOW;    //estado previo stateprevius
 unsigned long time_press; //longopress
 unsigned long duracion;
 bool estate_button = false;
-unsigned long min_time = 1400;  // 3 segundos
+unsigned long min_time = 1500;  // 3 segundos
 
 LedControl lc = LedControl(16, 18, 17, 1);
 
@@ -335,16 +216,18 @@ LedControl lc = LedControl(16, 18, 17, 1);
 Timer timer1;
 Timer timer2;
 
+
 void setup() {
   Serial.begin(9600);
   //---------------------------------------- SETEAMOS LOS PINES
   for (int i = 0; i  < 16; i++) pinMode(i, OUTPUT);
   pinMode(21, OUTPUT);
   pinMode(20, OUTPUT);
-  pinMode(A1, INPUT);//----------------boton
+  pinMode(19, INPUT);
 
   pinMode(A0,INPUT); //-------------- SWITCH PARA CAMBIAR ORIENTACION
-
+  pinMode(A4,   INPUT);//------boton para izquierda
+  pinMode(A5,   INPUT);//------boton para derecha
   clearLeds(); //------------------------- Si se inicia de nuevo entonces limpiaremos la matriz de leds
 
 
@@ -366,39 +249,87 @@ void loop() {
   timer1.update();
   timer2.update();
 
-  /* En este metodo se genera una probabilidad para la generacion de 0´s y 1´s del 
+ /* En este metodo se genera una probabilidad para la generacion de 0´s y 1´s del 
 1 al 10 con una base de 5 para mejorar el random, hay un for que genera la cantidad de 1´s
 que dio la probasbilidad y se puede ver la entrada principal es n (que son los 1´s que se 
 generan) y esta la otra 100-n que son los 0´s que se generan 
 es decir una depende de la otra*/
 
-  /*num=random(1,10);
+ /*
+  num2=random(0,20);
+  if((num2 == 1) || (num2 == 3) || (num2 == 5) || (num2 == 7) || (num2 == 9)||(num2 == 11) || (num2 == 13) || (num2 == 15) || (num2 == 17) || (num2 == 19)){
+     Serial.println("El random es 1");
+    }
+  if((num2 == 0) || (num2 == 2) || (num2 == 4) || (num2 == 6) || (num2 == 8)||(num2 == 10) || (num2 == 12) || (num2 == 14) || (num2 == 16) || (num2 == 18)){
+     Serial.println("El random es 0");
+    }
+*/
+    
+  //este random es para ver la cantidad de espacios y enemigos que se generan
+  num=random(1,10);
   int val2 = 10-num;
-    Serial.print("El n es = ");
+
+    // aca se generan los enemigos identificando la posicion  
+   /* Serial.print("El n es = ");
     Serial.println(num);
-    Serial.print("El 100-n es = ");
+    Serial.print("El 10-n es = ");
     Serial.println(val2);
-      for (int x=0; x<num; x++) {   
-        Serial.println("1");
+    */
+    
+   //este for me dice cuantos enemigos se van a crear 
+      for (int x=0; x<num; x++) {  
+          num1=random(1,4);
+          Serial.println(num1);
+          
+        if(num1 == 1){//enemigo se genera a la izquierda    
+          Serial.println("11100000");
+          Serial.println("01000000");
+          Serial.println(" ");
+          Serial.println(" ");
+          #define left { \
+              {1, 1, 1, 0, 0, 0, 0, 0}, \
+              {0, 1, 0, 0, 0, 0, 0, 0}\
+           }  
+       } 
+    
+       if(num1 == 2){ //enemigo se genera al centro     
+        Serial.println("00111000");
+        Serial.println("00010000");
+        Serial.println(" ");
+          Serial.println(" ");
+           #define center { \
+              {0, 0, 1, 1, 1, 0, 0, 0}, \
+              {0, 0, 0, 1, 0, 0, 0, 0}\
+            }
+        }
+    
+    if(num1 == 3){//enemigo se genera a la derecha
+      Serial.println("00000111");
+      Serial.println("00000010");
+      Serial.println(" ");
+      Serial.println(" ");
+      #define right { \
+    {0, 0, 0, 0, 0, 1, 1, 1}, \
+    {0, 0, 0, 0, 0, 0, 1, 0}\
+       }
+    }
+           
+        
       }
-  delay(1000); 
-// aca se generan los enemigos identificando la posicion 
-  num1=random(1,4);
-  Serial.println(num1);
+
+      //este for me dice cuantos espacios se van a crear
+      for (int x=0; x<val2; x++) {    
+        Serial.println("00000000");
+        Serial.println("00000000");
+        Serial.println(" ");
+        Serial.println(" ");
+        #define space { \
+          {0, 0, 0, 0, 0, 0, 0, 0}, \
+          {0, 0, 0, 0, 0, 0, 0, 0}\
+       }
+      }
+    delay(9000); 
   
-
-  if(num1 == 1){
-    Serial.println("left");
-    }
-    if(num1 == 2){
-    Serial.println("center");
-    }
-    if(num1 == 3){
-    Serial.println("right");
-    }
-    delay(1000); 
-
-  */
 }
 
 
@@ -413,22 +344,6 @@ void game() {
   
 }
 
-/**
- * METODO QUE SE ENCARGARA DE VERIFICAR LA FLAG
- * 
- */
-void tipoDesplazamiento(){
-  switch (fase_inicial){
-  case 0:
-    if(flagDesplazamiento == 0) desplazarLetra();
-    else desplazarLetraInversa();
-    break;
-   case 1:
-      Contador();
-      break;
-  }
-
-}
 
 /**
  * METODO QUE OBTENDRA EL VALOR
@@ -453,7 +368,14 @@ void verificarOrientacion(){
 }
 
 
-
+/**
+ * METODO QUE SE ENCARGARA DE VERIFICAR LA FLAG
+ * 
+ */
+void tipoDesplazamiento(){
+  if(flagDesplazamiento == 0) desplazarLetra();
+  else desplazarLetraInversa();
+}
 /**
    METODO QUE PONDRA LA MATRIZ EN 0'S
 */
@@ -496,46 +418,7 @@ void desplazarLetra()
     letraActual = (letraActual + 1 >= caracteres) ? 0 : letraActual + 1;
   }
 }
-;
-void Contador(){
-    duration = duracion+1000 ; //------si se quita el 1000 hay un pequeño retraso al iniciar
-    if ((duration/1000) >= 1.5){
-      for (int i = 0; i < 8; i++){
-        for (int j = 0; j < 8; j++){
-           matriz[i][j] = contador_0[i-1][j]; // muestra el cero constante en la matriz sin modulo
-        }
-        
-    }
-      for(int a = 8; a < 16; a++){
-        for(int b = 0; b < 8; b++){
-          matriz[a][b] = contador_1[a - 9][b]; // muestra los numeros 1-2-3 en la matriz con modulo estos 3 for de abajo
-        }
-      }
-    }
-     if ((duration/1000) >= 2.5){
-      for(int i = 8; i < 16; i++){
-        for(int j = 0; j < 8; j++){
-          matriz[i][j] = contador_2[i - 9][j];
-        }
-      }
-    }
-   
-  
-    if ((duration/1000) >= 3.5){
-      for(int i = 8; i < 16; i++){
-        for(int j = 0; j < 8; j++){
-          matriz[i][j] = contador_3[i - 9][j];
-        }
-      }
-    }
-    
-    
-    if ((duration/1000) >= 4.5){
-      clearLeds();
-      fase_inicial = 0;//aqui iria que empieze el juego
-    } 
-  
-}
+
 
 
 /**
@@ -613,23 +496,22 @@ void showMatrizSinModulo() {
 */
 void Estado_Boton() {
   if (time_init - time_last > intervalo_button) {
-    int estado = digitalRead(A1);
+    int estado = digitalRead(19);
 
     if (estado == HIGH && estado_prev == LOW && !estate_button) {
       time_press = time_init;
       estado_prev = HIGH;
     }
     duracion = time_init - time_press;
+
     if (estado == HIGH && !estate_button && duracion >= min_time) {
       estate_button = true;
-      fase_inicial = 1;
       digitalWrite(20, HIGH); // enciende la led cuando se presiona durante 3 seg
     }
-    if (estado == LOW && estado_prev == HIGH ) {
+    if (estado == LOW && estado_prev == HIGH) {
       estado_prev = LOW;
       estate_button = false;
       digitalWrite(20, LOW); // apaga la led cuando se deja de presionar el boton
-            
       if (!estate_button && duracion < min_time) {
         //---aqui iria para pausar ya que este requiere una solo push corto del boton
       }
@@ -638,3 +520,19 @@ void Estado_Boton() {
   }
 
 }
+
+void jugador(){
+  int inicioju;
+  int derecha = digitalRead(A4);
+  int izquierda = digitalRead(A5);
+
+    if(derecha == 1){
+      inicioju++;
+      }
+      if(izquierda == 1){
+        inicioju--;
+        }
+      
+  }
+
+ 

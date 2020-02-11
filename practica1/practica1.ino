@@ -247,15 +247,62 @@
     {0, 0, 0, 0, 0, 0, 0, 0}\
   }
 
+//----------------------Contador Aescendente 
+int contador_0[8][8] =  { \
+    {0, 0, 0, 0, 0, 0, 0, 0}, \
+    {0, 0, 1, 1, 1, 1, 0, 0}, \
+    {0, 1, 0, 0, 0, 0, 1, 0}, \
+    {0, 1, 0, 0, 0, 0, 1, 0}, \
+    {0, 1, 0, 0, 0, 0, 1, 0}, \
+    {0, 1, 0, 0, 0, 0, 1, 0}, \
+    {0, 0, 1, 1, 1, 1, 0, 0}, \
+    {0, 0, 0, 0, 0, 0, 0, 0}\
+  };
+
+  int contador_1[8][8] = { \
+    {0, 0, 0, 0, 0, 0, 0, 0}, \
+    {0, 0, 0, 1, 1, 0, 0, 0}, \
+    {0, 0, 0, 1, 1, 1, 0, 0}, \
+    {0, 0, 0, 1, 1, 1, 1, 0}, \
+    {0, 0, 0, 1, 1, 0, 0, 0}, \
+    {0, 0, 0, 1, 1, 0, 0, 0}, \
+    {0, 1, 1, 1, 1, 1, 1, 0}, \
+    {0, 0, 0, 0, 0, 0, 0, 0}\
+  };
+
+  int contador_2[8][8] = { \
+    {0, 0, 0, 0, 0, 0, 0, 0}, \
+    {0, 0, 0, 1, 1, 1, 1, 0}, \
+    {0, 0, 1, 0, 0, 0, 0, 0}, \
+    {0, 0, 1, 1, 1, 1, 0, 0}, \
+    {0, 0, 0, 0, 0, 0, 1, 0}, \
+    {0, 0, 0, 0, 0, 0, 1, 0}, \
+    {0, 0, 1, 1, 1, 1, 1, 0}\
+  };
+
+  int contador_3[8][8] = { \
+    {0, 0, 0, 0, 0, 0, 0, 0}, \
+    {0, 0, 0, 1, 1, 1, 0, 0}, \
+    {0, 0, 1, 0, 0, 0, 1, 0}, \
+    {0, 0, 1, 0, 0, 0, 0, 0}, \
+    {0, 0, 1, 1, 1, 0, 0, 0}, \
+    {0, 0, 1, 0, 0, 0, 1, 0}, \
+    {0, 0, 0, 1, 1, 1, 0, 0}, \
+    {0, 0, 0, 0, 0, 0, 0, 0}\
+  };
+
+int fase_inicial = 0; // variable para el switch de control
+unsigned long tiempoini;
+unsigned long time_ultimo;
+unsigned long time_past;
+unsigned long duration;
+
 int columnas[8] = {0, 21, 2, 3, 4, 5, 6, 7};
 int filas[8] = {15, 14, 13, 12, 11, 10, 9, 8};
-
 int matriz[16][8];
 
 const int caracteres = 22;
-const int numeros =10;
 byte oracion[caracteres][8][8] = { G , THREE, GUION , S , E , C , C , I , O , N , A , GUION , P , R , A , C , T , I , C , A , UNO , SPACE};
-byte digitos[numeros][8][8] = { CERO,UNO, DOS , THREE, FOUR, FIVE, SIX, SEVEN, OCHO, NINE};
 //----------------------------------------- DESPLAZAMIENTO ---------------------------------------------------
 int letraActual = 0;
 int lineaActual = 0;
@@ -271,7 +318,8 @@ int num = 0;//variable enemigos
 int num1 = 0;//variable de n y n-100
 
 
-// para el boton
+
+//--------------------------------- para el boton
 unsigned long time_init; //tiempo desde que el arduino comienza a iniciar /current
 unsigned long time_last; // ultimo tiempo de la lectura
 const int intervalo_button = 50;
@@ -279,7 +327,7 @@ int estado_prev = LOW;    //estado previo stateprevius
 unsigned long time_press; //longopress
 unsigned long duracion;
 bool estate_button = false;
-unsigned long min_time = 1500;  // 3 segundos
+unsigned long min_time = 1400;  // 3 segundos
 
 LedControl lc = LedControl(16, 18, 17, 1);
 
@@ -287,14 +335,13 @@ LedControl lc = LedControl(16, 18, 17, 1);
 Timer timer1;
 Timer timer2;
 
-
 void setup() {
   Serial.begin(9600);
   //---------------------------------------- SETEAMOS LOS PINES
   for (int i = 0; i  < 16; i++) pinMode(i, OUTPUT);
   pinMode(21, OUTPUT);
   pinMode(20, OUTPUT);
-  pinMode(19, INPUT);
+  pinMode(A1, INPUT);//----------------boton
 
   pinMode(A0,INPUT); //-------------- SWITCH PARA CAMBIAR ORIENTACION
 
@@ -324,8 +371,8 @@ void loop() {
 que dio la probasbilidad y se puede ver la entrada principal es n (que son los 1´s que se 
 generan) y esta la otra 100-n que son los 0´s que se generan 
 es decir una depende de la otra*/
-/*
-  num=random(1,10);
+
+  /*num=random(1,10);
   int val2 = 10-num;
     Serial.print("El n es = ");
     Serial.println(num);
@@ -350,9 +397,8 @@ es decir una depende de la otra*/
     Serial.println("right");
     }
     delay(1000); 
-    */
 
-  
+  */
 }
 
 
@@ -367,6 +413,22 @@ void game() {
   
 }
 
+/**
+ * METODO QUE SE ENCARGARA DE VERIFICAR LA FLAG
+ * 
+ */
+void tipoDesplazamiento(){
+  switch (fase_inicial){
+  case 0:
+    if(flagDesplazamiento == 0) desplazarLetra();
+    else desplazarLetraInversa();
+    break;
+   case 1:
+      Contador();
+      break;
+  }
+
+}
 
 /**
  * METODO QUE OBTENDRA EL VALOR
@@ -391,14 +453,7 @@ void verificarOrientacion(){
 }
 
 
-/**
- * METODO QUE SE ENCARGARA DE VERIFICAR LA FLAG
- * 
- */
-void tipoDesplazamiento(){
-  if(flagDesplazamiento == 0) desplazarLetra();
-  else desplazarLetraInversa();
-}
+
 /**
    METODO QUE PONDRA LA MATRIZ EN 0'S
 */
@@ -441,7 +496,46 @@ void desplazarLetra()
     letraActual = (letraActual + 1 >= caracteres) ? 0 : letraActual + 1;
   }
 }
-
+;
+void Contador(){
+    duration = duracion+1000 ; //------si se quita el 1000 hay un pequeño retraso al iniciar
+    if ((duration/1000) >= 1.5){
+      for (int i = 0; i < 8; i++){
+        for (int j = 0; j < 8; j++){
+           matriz[i][j] = contador_0[i-1][j]; // muestra el cero constante en la matriz sin modulo
+        }
+        
+    }
+      for(int a = 8; a < 16; a++){
+        for(int b = 0; b < 8; b++){
+          matriz[a][b] = contador_1[a - 9][b]; // muestra los numeros 1-2-3 en la matriz con modulo estos 3 for de abajo
+        }
+      }
+    }
+     if ((duration/1000) >= 2.5){
+      for(int i = 8; i < 16; i++){
+        for(int j = 0; j < 8; j++){
+          matriz[i][j] = contador_2[i - 9][j];
+        }
+      }
+    }
+   
+  
+    if ((duration/1000) >= 3.5){
+      for(int i = 8; i < 16; i++){
+        for(int j = 0; j < 8; j++){
+          matriz[i][j] = contador_3[i - 9][j];
+        }
+      }
+    }
+    
+    
+    if ((duration/1000) >= 4.5){
+      clearLeds();
+      fase_inicial = 0;//aqui iria que empieze el juego
+    } 
+  
+}
 
 
 /**
@@ -519,22 +613,23 @@ void showMatrizSinModulo() {
 */
 void Estado_Boton() {
   if (time_init - time_last > intervalo_button) {
-    int estado = digitalRead(19);
+    int estado = digitalRead(A1);
 
     if (estado == HIGH && estado_prev == LOW && !estate_button) {
       time_press = time_init;
       estado_prev = HIGH;
     }
     duracion = time_init - time_press;
-
     if (estado == HIGH && !estate_button && duracion >= min_time) {
       estate_button = true;
+      fase_inicial = 1;
       digitalWrite(20, HIGH); // enciende la led cuando se presiona durante 3 seg
     }
-    if (estado == LOW && estado_prev == HIGH) {
+    if (estado == LOW && estado_prev == HIGH ) {
       estado_prev = LOW;
       estate_button = false;
       digitalWrite(20, LOW); // apaga la led cuando se deja de presionar el boton
+            
       if (!estate_button && duracion < min_time) {
         //---aqui iria para pausar ya que este requiere una solo push corto del boton
       }

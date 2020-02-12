@@ -442,8 +442,8 @@ void loop() {
   time_init = millis();
   timer1.update();
   timer2.update();
-  int resultado = map(analogRead(A2),0,1023,0,100);
-  velocidad = (1/9)*(resultado) - (50/9);
+  //int resultado = map(analogRead(A2),0,1023,0,100);
+  //velocidad = (1/9)*(resultado) - (50/9);
 
   /* En este metodo se genera una probabilidad para la generacion de 0´s y 1´s del 
 1 al 10 con una base de 5 para mejorar el random, hay un for que genera la cantidad de 1´s
@@ -639,38 +639,41 @@ void Llenar_Matriz(int decena[16][8], int unidad[8][8]){
  */
 void Cronometro(){
   // if estado == 2 juego
-  if (segundos >= 99){
-    Llenar_Matriz(contador_9,contador_9);
-  }else{
-     int matriz_temp1[8][8];
-     int matriz_temp2[8][8];
-     int decena = segundos / 10;
-     int unidad = segundos % 10;
-     if ( decena == 0 ) Clonar(matriz_temp1 , contador_0);
-     else if (decena == 1) Clonar(matriz_temp1 , contador_1);
-     else if (decena == 2) Clonar(matriz_temp1 , contador_2);
-     else if (decena == 3) Clonar(matriz_temp1 , contador_3);
-     else if (decena == 4) Clonar(matriz_temp1 , contador_4);
-     else if (decena == 5) Clonar(matriz_temp1 , contador_5);
-     else if (decena == 6) Clonar(matriz_temp1 , contador_6);
-     else if (decena == 7) Clonar(matriz_temp1 , contador_7);
-     else if (decena == 8) Clonar(matriz_temp1 , contador_8);
-     else if (decena == 9) Clonar(matriz_temp1 , contador_9);
-     else if (unidad == 0) Clonar(matriz_temp2 , contador_0);
-     else if (unidad == 1) Clonar(matriz_temp2 , contador_1);
-     else if (unidad == 2) Clonar(matriz_temp2 , contador_2);
-     else if (unidad == 3) Clonar(matriz_temp2 , contador_3);
-     else if (unidad == 4) Clonar(matriz_temp2 , contador_4);
-     else if (unidad == 5) Clonar(matriz_temp2 , contador_5);
-     else if (unidad == 6) Clonar(matriz_temp2 , contador_6);
-     else if (unidad == 7) Clonar(matriz_temp2 , contador_7);
-     else if (unidad == 8) Clonar(matriz_temp2 , contador_8);
-     else if (unidad == 9) Clonar(matriz_temp2 , contador_9);
-
-     Llenar_Matriz(matriz_temp1, matriz_temp2);
-  }
-  
- 
+    int matriz_temp1[8][8];
+    int matriz_temp2[8][8];
+    int matriz_temp3[8][8];
+    int matriz_temp4[8][8];
+    int decena = segundos / 10;
+    int unidad = segundos % 10;
+    
+    if (segundos >= 99){
+      Clonar(matriz_temp3,contador_9);
+      Clonar(matriz_temp4,contador_9);
+      Llenar_Matriz(matriz_temp4, matriz_temp3);
+    }else{
+    if (decena == 0 ) Clonar(matriz_temp1 , contador_0);
+    if (decena == 1) Clonar(matriz_temp1 , contador_1);
+    if (decena == 2) Clonar(matriz_temp1 , contador_2);
+    if (decena == 3) Clonar(matriz_temp1 , contador_3);
+    if (decena == 4) Clonar(matriz_temp1 , contador_4);
+    if (decena == 5) Clonar(matriz_temp1 , contador_5);
+    if (decena == 6) Clonar(matriz_temp1 , contador_6);
+    if (decena == 7) Clonar(matriz_temp1 , contador_7);
+    if (decena == 8) Clonar(matriz_temp1 , contador_8);
+    if (decena == 9) Clonar(matriz_temp1 , contador_9);
+    if (unidad == 0) Clonar(matriz_temp2 , contador_0);
+    if (unidad == 1) Clonar(matriz_temp2 , contador_1);
+    if (unidad == 2) Clonar(matriz_temp2 , contador_2);
+    if (unidad == 3) Clonar(matriz_temp2 , contador_3);
+    if (unidad == 4) Clonar(matriz_temp2 , contador_4);
+    if (unidad == 5) Clonar(matriz_temp2 , contador_5);
+    if (unidad == 6) Clonar(matriz_temp2 , contador_6);
+    if (unidad == 7) Clonar(matriz_temp2 , contador_7);
+    if (unidad == 8) Clonar(matriz_temp2 , contador_8);
+    if (unidad == 9) Clonar(matriz_temp2 , contador_9);
+    Llenar_Matriz(matriz_temp1, matriz_temp2);
+    }
+    
 }
 /*
  * Metodo Que se encarga de clonar una matriz 
@@ -795,11 +798,16 @@ void Estado_Boton() {
             
       if (!estate_button && duracion < min_time) {
         //---aqui iria para pausar ya que este requiere una solo push corto del boton
-        if (fase_inicial == 0){//no hace nada
+        if (fase_inicial == 0){
           //clearLeds();
           fase_inicial = 2;
           flag_cronometro = false;
           
+        }
+         else if (fase_inicial == 2){ // aqui iria el juego
+          clearLeds();
+          fase_inicial = 0;
+          flag_cronometro = true;
         }
         
       }

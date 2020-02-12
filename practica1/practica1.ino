@@ -320,7 +320,6 @@
    -------------------------------------------------------------------------------------------------------------------------------------------------------------------
     ---------------------------------------------------------- ESTRUCTURAS PARA ENEMIGOS    --------------------------------------------------------------------------
     -------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 */
 
 
@@ -429,9 +428,6 @@ int contador_9[8][8] =
 };
 
 int fase_inicial = 0; // variable para el switch de control
-unsigned long tiempoini;
-unsigned long time_ultimo;
-unsigned long time_past;
 unsigned long duration;
 
 unsigned long tiempo_cronometro = 0;
@@ -577,7 +573,6 @@ void generarEnemigos()
     /*
        Si el numero random es menor a la probabilidad entonces es un enemigo
        de lo contrario se tomara como espacio vacio
-
     */
     long numero = random(0, 10);
     if (numero <= 8)
@@ -628,7 +623,6 @@ void game()
 
 /**
    METODO QUE SE ENCARGARA DE VERIFICAR LA FLAG
-
 */
 
 void tipoDesplazamiento()
@@ -670,8 +664,6 @@ void tipoDesplazamiento()
 /*
    METODO ENCARGADO DE
    MOVER LOS ENEMIGOS
-
-
 */
 void desplazarEnemigo()
 {
@@ -783,17 +775,17 @@ void desplazarLetra()
 */
 void Contador()
 {
-  duration = duracion; //------si se quita el 1000 hay un pequeño retraso al iniciar
+  duration = duracion-150; //-- ese -150 sirve para quitar el pequeno retraso al iniciar
+  if ((duration / 1000) >= 1)
+    Llenar_Matriz(contador_3, contador_3);
+
   if ((duration / 1000) >= 2)
-    Llenar_Matriz(contador_0, contador_1);
+    Llenar_Matriz(contador_2, contador_2);
 
-  if ((duration / 1000) >= 3.2)
-    Llenar_Matriz(contador_0, contador_2);
+  if ((duration / 1000) >= 3)
+    Llenar_Matriz(contador_1, contador_1);
 
-  if ((duration / 1000) >= 4.5)
-    Llenar_Matriz(contador_0, contador_3);
-
-  if ((duration / 1000) >= 6)
+  if ((duration / 1000) >= 4)
   {
     //------------------------------ JUEGO -> MENSAJE ----------------------------------
     if (flagEstado == 1) {

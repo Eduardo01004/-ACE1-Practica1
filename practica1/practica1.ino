@@ -330,29 +330,7 @@ int right[5][8] = {
   {0, 0, 0, 0, 0, 0, 0, 0}
 };
 
-int left[5][8] = {
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 1, 1, 1, 0},
-  {0, 0, 0, 0, 0, 1, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0}
-};
 
-int center[5][8] = {
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 1, 1, 1, 0, 0, 0},
-  {0, 0, 0, 1, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0}
-};
-
-int enemigo_vacio[5][8] = {
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0}
-};
 
 //----------------------Contador Aescendente
 int contador_0[8][8] = {
@@ -476,16 +454,19 @@ int velocidad = 150;
 int columnas[8] = {0, 21, 2, 3, 4, 5, 6, 7};
 int filas[8] = {15, 14, 13, 12, 11, 10, 9, 8};
 int matriz[16][8];
+int backup[16][8];
 
-const int caracteres = 22;
-byte oracion[caracteres][8][8] = {G, THREE, GUION, S, E, C, C, I, O, N, A, GUION, P, R, A, C, T, I, C, A, UNO, SPACE};
+byte oracion[22][8][8] = {G, THREE, GUION, S, E, C, C, I, O, N, A, GUION, P, R, A, C, T, I, C, A, UNO, SPACE};
 //----------------------------------------- DESPLAZAMIENTO ---------------------------------------------------
 int letraActual = 0;
 int lineaActual = 0;
 
 //-------------------------------------------- ENEMIGOS -------------------------------------------------------------------------------------
-int probabilidad = 4;
 int enemigos[25][5][8];
+
+//-------------------------------------------- DIFICULTAD ------------------------------------------------------------------------------------
+unsigned long tiempo_dificultad = 0;
+unsigned long tiempo_dificultad2 = 0;
 
 //---------------------------------------- ESTADOS ----------------------------------------------------------------------------------------
 int flagEstado = 0; //---- 0 -> MENSAJE A JUEGO, 1-> JUEGO A MENSAJE
@@ -497,8 +478,7 @@ int flagEstado = 0; //---- 0 -> MENSAJE A JUEGO, 1-> JUEGO A MENSAJE
 int flagDesplazamiento = 0;
 int oldDesplazamiento = 0; // Almacenara el anterior estado
 
-int num = 0;  //variable enemigos
-int num1 = 0; //variable de n y n-100
+
 
 //--------------------------------- para el boton
 unsigned long time_init; //tiempo desde que el arduino comienza a iniciar /current
@@ -524,7 +504,7 @@ void setup()
   Serial.begin(9600);
   //---------------------------------------- SETEAMOS LOS PINES
   for (int i = 0; i < 16; i++)
-    pinMode(i, OUTPUT);
+  pinMode(i, OUTPUT);
   pinMode(21, OUTPUT);
   pinMode(20, OUTPUT);
   pinMode(A1, INPUT); //----------------boton
@@ -567,6 +547,29 @@ void loop()
 */
 void generarEnemigos()
 {
+  int left[5][8] = {
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 1, 1, 1, 0},
+    {0, 0, 0, 0, 0, 1, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0}
+  };
+
+  int center[5][8] = {
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 1, 1, 1, 0, 0, 0},
+    {0, 0, 0, 1, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0}
+  };
+
+  int enemigo_vacio[5][8] = {
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0}
+  };
   for (int i = 0; i < 25; i++)
   {
     /*
@@ -575,7 +578,7 @@ void generarEnemigos()
 
     */
     long numero = random(0, 10);
-    if (numero <= probabilidad)
+    if (numero <= 8)
     {
       /*NUMERO:
          0 -> Enemigo izquierdo
@@ -618,6 +621,7 @@ void game()
   showMatrizModulo();
   showMatrizSinModulo();
   Temporizador();
+  controlarDificultad();
 }
 
 /**
@@ -695,10 +699,6 @@ void desplazarEnemigo()
 }
 
 
-int regla_Tres(int x)
-{
-  return (x * 500) / 100;
-}
 
 /**
    METODO QUE OBTENDRA EL VALOR
@@ -772,7 +772,7 @@ void desplazarLetra()
   if (lineaActual > 7)
   {
     lineaActual = 0;
-    letraActual = (letraActual + 1 >= caracteres) ? 0 : letraActual + 1;
+    letraActual = (letraActual + 1 >= 22) ? 0 : letraActual + 1;
   }
 }
 
@@ -938,7 +938,7 @@ void desplazarLetraInversa()
   if (lineaActual < 0)
   {
     lineaActual = 7;
-    letraActual = (letraActual + 1 >= caracteres) ? 0 : letraActual + 1;
+    letraActual = (letraActual + 1 >= 22) ? 0 : letraActual + 1;
   }
 }
 
@@ -1026,12 +1026,14 @@ void Estado_Boton()
       {
         //---aqui iria para pausar ya que este requiere una solo push corto del boton
         if (fase_inicial == 3) {
-          //clearLeds();
+          makeBackup();
+          clearLeds();
           fase_inicial = 2;
           flag_cronometro = false;
         }
         else if (fase_inicial == 2) { // aqui iria el juego
           clearLeds();
+          restoreBackup();
           fase_inicial = 3;
           flag_cronometro = true;
         }
@@ -1039,5 +1041,42 @@ void Estado_Boton()
       }
     }
     time_last = time_init;
+  }
+}
+
+/*
+   METODO QUE HARA UN BACKUP DE LA MATRIZ
+   CUANDO ESTE EN PAUSA
+*/
+void makeBackup() {
+  for (int i = 0; i < 16; i++) {
+    for (int j = 0; j < 8; j++) {
+      backup[i][j] = matriz[i][j];
+    }
+  }
+}
+
+/*
+   RESTAURARA LA ULTIMA COPIA REALIZADA DE
+   LA MATRIZ
+*/
+void restoreBackup() {
+  for (int i = 0; i < 16; i++) {
+    for (int j = 0; j < 8; j++) {
+      matriz[i][j] = backup[i][j];
+    }
+  }
+}
+
+/**
+ * METODO QUE SE ENCARGARA DE IR AUMENTANDO LA DIFICULTAD CADA 10s
+ */
+void controlarDificultad()
+{
+  tiempo_dificultad2 = millis();
+  if (tiempo_dificultad2 > (tiempo_dificultad + 10000) && flag_cronometro == true )
+  {
+    tiempo_dificultad = millis();
+    velocidad = (velocidad - 50 > 50) ? velocidad - 50 : 50;
   }
 }

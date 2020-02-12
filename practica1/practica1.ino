@@ -322,13 +322,6 @@
     -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 */
-int right[5][8] = {
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 1, 1, 1, 0, 0, 0, 0},
-  {0, 0, 1, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0}
-};
 
 
 
@@ -504,7 +497,7 @@ void setup()
   Serial.begin(9600);
   //---------------------------------------- SETEAMOS LOS PINES
   for (int i = 0; i < 16; i++)
-  pinMode(i, OUTPUT);
+    pinMode(i, OUTPUT);
   pinMode(21, OUTPUT);
   pinMode(20, OUTPUT);
   pinMode(A1, INPUT); //----------------boton
@@ -570,6 +563,15 @@ void generarEnemigos()
     {0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0, 0, 0, 0}
   };
+
+  int right[5][8] = {
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {1, 1, 1, 0, 0, 0, 0, 0},
+    {0, 1, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0}
+  };
+
   for (int i = 0; i < 25; i++)
   {
     /*
@@ -1069,14 +1071,14 @@ void restoreBackup() {
 }
 
 /**
- * METODO QUE SE ENCARGARA DE IR AUMENTANDO LA DIFICULTAD CADA 10s
- */
+   METODO QUE SE ENCARGARA DE IR AUMENTANDO LA DIFICULTAD CADA 10s
+*/
 void controlarDificultad()
 {
   tiempo_dificultad2 = millis();
   if (tiempo_dificultad2 > (tiempo_dificultad + 10000) && flag_cronometro == true )
   {
     tiempo_dificultad = millis();
-    velocidad = (velocidad - 50 > 50) ? velocidad - 50 : 50;
+    velocidad = (velocidad - 60 > 100) ? velocidad - 60 : 100;
   }
 }

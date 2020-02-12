@@ -322,25 +322,33 @@
  *  -------------------------------------------------------------------------------------------------------------------------------------------------------------------
  * 
  */
-int right[3][8] = {
+int right[5][8] = {
     {0, 0, 0, 0, 0, 0, 0, 0},
     {0, 1, 1, 1, 0, 0, 0, 0},
-    {0, 0, 1, 0, 0, 0, 0, 0}};
+    {0, 0, 1, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0}};
 
-int left[3][8] = {
+int left[5][8] = {
     {0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 0, 0, 1, 1, 1, 0},
-    {0, 0, 0, 0, 0, 1, 0, 0}};
+    {0, 0, 0, 0, 0, 1, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0}};
 
-int center[3][8] = {
+int center[5][8] = {
     {0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 1, 1, 1, 0, 0, 0},
-    {0, 0, 0, 1, 0, 0, 0, 0}};
+    {0, 0, 0, 1, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0}};
 
-int enemigo_vacio[3][8] = {
+int enemigo_vacio[5][8] = {
     {0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0,0, 0, 0, 0, 0}};
+    {0, 0, 0,0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0}};
 
 //----------------------Contador Aescendente
 int contador_0[8][8] = {
@@ -449,7 +457,7 @@ bool flag_cronometro = true;
 unsigned long tiempo_despla = 0;
 unsigned long tiempo_despla2 = 0;
 int segundos = 0;
-int velocidad = 150;
+int velocidad = 400;
 
 int columnas[8] = {0, 21, 2, 3, 4, 5, 6, 7};
 int filas[8] = {15, 14, 13, 12, 11, 10, 9, 8};
@@ -463,7 +471,7 @@ int lineaActual = 0;
 
 //-------------------------------------------- ENEMIGOS -------------------------------------------------------------------------------------
 int probabilidad = 4;
-int enemigos[25][3][8];
+int enemigos[25][5][8];
 
 /**
  * 0: Abajo -> Arriba
@@ -531,7 +539,7 @@ void loop()
   timer1.update();
   timer2.update();
   // int resultado = map(analogRead(A2),0,1023,0,100);
-  velocidad = 150;
+  
   
   
 }
@@ -574,8 +582,8 @@ void generarEnemigos()
  *METODO QUE SE ENCARGARA DE GUARDAR UN 
  ENEMIGO/ESPACIO EN CIERTA POSICION 
  */
-void guardarEnemigo(int index,int objeto[3][8]){
-  for(int i = 0; i < 3; i++){
+void guardarEnemigo(int index,int objeto[5][8]){
+  for(int i = 0; i < 5; i++){
     for(int j = 0; j < 8; j++){
       enemigos[index][i][j] = objeto[i][j];
     }
@@ -626,7 +634,12 @@ void tipoDesplazamiento()
     break;
   
   case 3:
-    desplazarEnemigo();
+    tiempo_despla2 = millis();
+    if (tiempo_despla2 > (tiempo_despla + velocidad))
+    {
+      desplazarEnemigo();
+      tiempo_despla = millis();
+    }
   break;
   }
 }
@@ -659,7 +672,7 @@ void desplazarEnemigo()
   lineaActual--;
   if (lineaActual < 0)
   {
-    lineaActual = 2;
+    lineaActual = 4;
     letraActual = (letraActual + 1 >= 25) ? 0 : letraActual + 1;
   }
 }

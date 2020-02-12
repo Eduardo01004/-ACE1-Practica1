@@ -487,6 +487,9 @@ int lineaActual = 0;
 int probabilidad = 4;
 int enemigos[25][5][8];
 
+//---------------------------------------- ESTADOS ----------------------------------------------------------------------------------------
+int flagEstado = 0; //---- 0 -> MENSAJE A JUEGO, 1-> JUEGO A MENSAJE
+
 /**
    0: Abajo -> Arriba
    1: Arriba->Abajo
@@ -790,13 +793,27 @@ void Contador()
 
   if ((duration / 1000) >= 6)
   {
-    clearLeds();
-    generarEnemigos();
-    letraActual = 0;
-    fase_inicial = 3; //aqui iria que empieze el juego
-    velocidad = 500;
-    lineaActual = 4;
-    flag_cronometro = true; //empezamos a contar desde que empezamos a jugar
+    //------------------------------ JUEGO -> MENSAJE ----------------------------------
+    if (flagEstado == 1) {
+      fase_inicial = 0;
+      clearLeds();
+      letraActual = 0;
+      velocidad = 150;
+      lineaActual = (flagDesplazamiento == 1) ? 7 : 0;
+      flag_cronometro = false; //dejamos de contar los segundos
+      segundos = 0; // volvemos a setear nuestro contador de segundos
+    }
+    //----------------------------- MENSAJE -> JUEGO ---------------------------------
+    else {
+      clearLeds();
+      generarEnemigos();
+      letraActual = 0;
+      fase_inicial = 3; //aqui iria que empieze el juego
+      velocidad = 500;
+      lineaActual = 4;
+      flag_cronometro = true; //empezamos a contar desde que empezamos a jugar
+    }
+
   }
 }
 /*
@@ -988,16 +1005,14 @@ void Estado_Boton()
       estate_button = true;
       //digitalWrite(20, HIGH); // enciende la led cuando se presiona durante 3 seg
       //-------------------------- ESTAMOS EN EL MENSAJE Y QUEREMOS IR AL JUEGO
-      if (fase_inicial == 0) fase_inicial = 1;
+      if (fase_inicial == 0) {
+        flagEstado = 0;
+        fase_inicial = 1;
+      }
       //-------------------------- ESTAMOS EN EL JUEGO Y QUEREMOS IR AL MENSAJE
       else if (fase_inicial == 3) {
-        fase_inicial = 0;
-        clearLeds();
-        letraActual = 0;
-        velocidad = 150;
-        lineaActual = (flagDesplazamiento == 1) ? 7: 0;
-        flag_cronometro = false; //dejamos de contar los segundos
-        segundos = 0; // volvemos a setear nuestro contador de segundos
+        fase_inicial = 1;
+        flagEstado = 1;
       }
     }
     if (estado == LOW && estado_prev == HIGH)
@@ -1010,14 +1025,14 @@ void Estado_Boton()
       if (!estate_button && duracion < min_time)
       {
         //---aqui iria para pausar ya que este requiere una solo push corto del boton
-        if (fase_inicial == 0) {
+        if (fase_inicial == 3) {
           //clearLeds();
           fase_inicial = 2;
           flag_cronometro = false;
         }
         else if (fase_inicial == 2) { // aqui iria el juego
           clearLeds();
-          fase_inicial = 0;
+          fase_inicial = 3;
           flag_cronometro = true;
         }
 

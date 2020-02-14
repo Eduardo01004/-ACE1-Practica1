@@ -32,7 +32,7 @@
 #define THREE                     \
   {                               \
     {0, 0, 0, 0, 0, 0, 0, 0},     \
-    {0, 0, 1, 1, 1, 1, 0, 0}, \
+    {0, 0, 1, 1, 1, 1, 1 , 0}, \
     {0, 0, 0, 0, 0, 0, 1, 0}, \
     {0, 0, 0, 1, 1, 1, 1, 0}, \
     {0, 0, 0, 0, 0, 0, 1, 0}, \
@@ -335,7 +335,7 @@ int segundos = 0;
 int velocidad = 150;
 
 int columnas[8] = {22, 21, 2, 3, 4, 5, 6, 7};
-int filas[8] = {15,14,23,12,11,10,9,8};
+int filas[8] = {15, 14, 23, 12, 11, 10, 9, 8};
 int matriz[16][8];
 int backup[16][8];
 
@@ -402,10 +402,10 @@ void setup()
 
   pinMode(A2, INPUT); // ------------- POTENCIOMETRO
 
-  pinMode(A3,INPUT); //----------------- MOVER IZQUIERDA
-  pinMode(A4,INPUT); //----------------- MOVER DERECHA
+  pinMode(A3, INPUT); //----------------- MOVER IZQUIERDA
+  pinMode(A4, INPUT); //----------------- MOVER DERECHA
 
-  
+
 
   clearLeds(); //------------------------- Si se inicia de nuevo entonces limpiaremos la matriz de leds
 
@@ -418,7 +418,7 @@ void setup()
 
   timer2.every(5, tipoDesplazamiento, 0); //------------------------- Este tiempo dictara la velocidad en la que se mostraran las figuras/letras
   timer1.every(5, game, 0);               //--------------------------------------- Hilo para el resto del juego
-  timer3.every(85,verificarPosicion,0);
+  timer3.every(95, verificarPosicion, 0);
 
   randomSeed(analogRead(A13)); // Semilla para los numeros aleatorios
 
@@ -431,13 +431,11 @@ void loop()
   timer1.update();
   timer2.update();
   timer3.update();
-  int resultado = map(analogRead(A2),0,1023,0,100);
-  if(fase_inicial == 0) velocidad = 4.4 * resultado + 60;
-  
-  Serial.print(resultado);
-  Serial.print("_");
-  Serial.println(velocidad);
-  
+  int resultado = map(analogRead(A2), 0, 1023, 0, 100);
+  if (fase_inicial == 0) velocidad = 4.4 * resultado + 60;
+
+
+
 
 
 
@@ -527,26 +525,31 @@ void guardarEnemigo(int index, int objeto[5][8]) {
 void game()
 {
   verificarOrientacion();
-  Estado_Boton();
   showMatrizModulo();
   showMatrizSinModulo();
-  if(fase_inicial == 3){
+  if (fase_inicial == 3) {
     lc.setLed(0, 7, posX, true);
   }
   Temporizador();
   controlarDificultad();
-  if(fase_inicial == 3) colision();
+  if (fase_inicial == 3) colision();
 }
 
 /**
- * METODO QUE SIRVE PARA
- * MOVER AL JUGADOR
- */
-void verificarPosicion(){
-  int n = digitalRead(A3);
-  int n2 = digitalRead(A4);
-  if(n == 1) posX++;
-  else if(n2 == 1) posX--;
+   METODO QUE SIRVE PARA
+   MOVER AL JUGADOR
+*/
+void verificarPosicion() {
+  if (fase_inicial == 3) {
+    int n = digitalRead(A3);
+    int n2 = digitalRead(A4);
+    if (n == 1) posX++;
+    else if (n2 == 1) posX--;
+  }
+
+
+  Estado_Boton();
+
 }
 
 
@@ -590,7 +593,7 @@ void tipoDesplazamiento()
 
     case 4:
       Cronometro();
-    break;
+      break;
   }
 }
 
@@ -635,9 +638,27 @@ void desplazarEnemigo()
 
 void verificarOrientacion()
 {
-  int estado = digitalRead(A0);
-  if (estado == 1)
-  {
+  if (fase_inicial ==  0) {
+    int estado = digitalRead(A0);
+    if (estado == 1)
+    {
+      flagDesplazamiento = 1;
+      if (flagDesplazamiento != oldDesplazamiento)
+      {
+        lineaActual = 7;
+        oldDesplazamiento = 1;
+      }
+    }
+    else
+    {
+      flagDesplazamiento = 0;
+      if (flagDesplazamiento != oldDesplazamiento)
+      {
+        lineaActual = 0;
+        oldDesplazamiento = 0;
+      }
+    }
+  } else {
     flagDesplazamiento = 1;
     if (flagDesplazamiento != oldDesplazamiento)
     {
@@ -645,15 +666,7 @@ void verificarOrientacion()
       oldDesplazamiento = 1;
     }
   }
-  else
-  {
-    flagDesplazamiento = 0;
-    if (flagDesplazamiento != oldDesplazamiento)
-    {
-      lineaActual = 0;
-      oldDesplazamiento = 0;
-    }
-  }
+
 }
 
 /**
@@ -708,7 +721,7 @@ void desplazarLetra()
 */
 void Contador()
 {
-  duration = duracion-150; //-- ese -150 sirve para quitar el pequeno retraso al iniciar
+  duration = duracion - 150; //-- ese -150 sirve para quitar el pequeno retraso al iniciar
   if ((duration / 1000) >= 1)
     Llenar_Matriz(contador_3, contador_3);
 
@@ -963,12 +976,12 @@ void Estado_Boton()
           restoreBackup();
           fase_inicial = 3;
           flag_cronometro = true;
-        }else if(fase_inicial == 4){
+        } else if (fase_inicial == 4) {
           clearLeds();
           flagEstado = 0;
           fase_inicial = 1;
           segundos = 0;
-          
+
         }
 
       }
@@ -1015,21 +1028,21 @@ void controlarDificultad()
 }
 
 /**
- * METODO QUE SE ENCARGARA
- * DE VERIFICAR QUE EL JUGADOR
- * NO TOCA LAS ORILLAS
- * O A  OTRA NAVE
- */
-void colision(){
-  if(posX > 7 || posX < 0){
+   METODO QUE SE ENCARGARA
+   DE VERIFICAR QUE EL JUGADOR
+   NO TOCA LAS ORILLAS
+   O A  OTRA NAVE
+*/
+void colision() {
+  if (posX > 7 || posX < 0) {
     clearLeds();
     fase_inicial = 4;
     posX = 4;
     flag_cronometro = false;
-  }else{
-    for(int i = 0; i < 16; i++){
-      for(int j = 0; j < 8; j++){
-        if(matriz[i][j] == 1 && posX == j && i == 15 ){
+  } else {
+    for (int i = 0; i < 16; i++) {
+      for (int j = 0; j < 8; j++) {
+        if (matriz[i][j] == 1 && posX == j && i == 15 ) {
           clearLeds();
           fase_inicial = 4;
           posX = 4;
